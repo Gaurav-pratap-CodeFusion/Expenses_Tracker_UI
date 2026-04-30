@@ -39,25 +39,45 @@
 
     <script>
 
-        function registerUser(e) {
-            e.preventDefault();
+async function registerUser(e)
+{
+    e.preventDefault();
 
-            let user =
+    let user =
+    {
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        email: document.getElementById("email").value,
+        fullname: document.getElementById("fullname").value
+    };
+
+    let response = await fetch(
+        "http://localhost:8080/users",
+        {
+            method: "POST",
+
+            headers:
             {
-                username: document.getElementById("username").value,
-                password: document.getElementById("password").value,
-                email: document.getElementById("email").value,
-                fullname: document.getElementById("fullname").value
-            };
+                "Content-Type": "application/json"
+            },
 
-            localStorage.setItem("user", JSON.stringify(user));
-
-            alert("Registration Successful");
-
-            location.href = "login.html";
+            body: JSON.stringify(user)
         }
+    );
 
-    </script>
+    if(response.ok)
+    {
+        alert("Registration Successful");
+
+        location.href = "login.html";
+    }
+    else
+    {
+        alert("Registration Failed");
+    }
+}
+
+</script>
 
 </body>
 

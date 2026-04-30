@@ -35,22 +35,29 @@
 
     <script>
 
-        function saveExpense(e) {
+        async function saveExpense(e) {
             e.preventDefault();
 
-            let nameValue = document.getElementById("name").value;
+            let expense =
+            {
+                name: document.getElementById("name").value,
+                amount: document.getElementById("amount").value,
+                date: document.getElementById("date").value,
+                description: document.getElementById("desc").value
+            };
 
-            let amountValue = document.getElementById("amount").value;
+            await fetch("http://localhost:8080/expenses",
+                {
+                    method: "POST",
 
-            let dateValue = document.getElementById("date").value;
+                    headers:
+                    {
+                        "Content-Type": "application/json"
+                    },
 
-            let descValue = document.getElementById("desc").value;
+                    body: JSON.stringify(expense)
+                });
 
-            let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
-
-            expenses.push({ name: nameValue, amount: amountValue, date: dateValue, desc: descValue });
-
-            localStorage.setItem("expenses", JSON.stringify(expenses));
             location.href = "expense-list.html";
         }
 

@@ -33,21 +33,44 @@
 
     <script>
 
-        function loginUser(e) {
-            e.preventDefault();
+async function loginUser(e)
+{
+    e.preventDefault();
 
-            let storedUser = JSON.parse(localStorage.getItem("user"));
+    let user =
+    {
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+    };
 
-            if (storedUser && username.value === storedUser.username && password.value === storedUser.password) {
-                location.href = "dashboard.html";
-            }
-            else {
-                alert("Invalid username or password");
-            }
+    let response = await fetch(
+        "http://localhost:8080/users/login",
+        {
+            method: "POST",
+
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(user)
         }
+    );
 
-    </script>
+    let data = await response.json();
 
+    if(data)
+    {
+        alert("Login Successful");
+        location.href = "dashboard.html";
+    }
+    else
+    {
+        alert("Invalid username or password");
+    }
+}
+
+</script>
 </body>
 
 </html>

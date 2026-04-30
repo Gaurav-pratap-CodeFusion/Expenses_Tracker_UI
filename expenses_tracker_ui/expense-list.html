@@ -2,52 +2,61 @@
 <html>
 
 <head>
-    <title>Expense List</title>
-    <link rel="stylesheet" href="style.css">
+<title>Expense List</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h2>Expense List</h2>
+<h2>Expense List</h2>
 
-        <div id="list"></div>
+<div id="list"></div>
 
-        <br>
-        <hr>
-
-    </div>
+</div>
 
 
-    <script>
+<script>
 
-        let data = JSON.parse(localStorage.getItem("expenses")) || [];
+async function loadExpenses()
+{
+        let response =
+        await fetch("http://localhost:8080/expenses");
+
+        let data = await response.json();
 
         let output = "";
 
-        for (let i = 0; i < data.length; i++) {
-            output +=
-                `
-                <div class="card">
+        data.forEach(exp =>
+        {
+            output += `
+            <div class="card">
 
-                <h4 style="color:green">${data[i].name}</h4>
+            <h4 style="color:green">
+            ${exp.name}
+            </h4>
 
-                <p>Amount: ₹${data[i].amount}</p>
+            <p>Amount: ₹${exp.amount}</p>
 
-                <p>Date: ${data[i].date}</p>
+            <p>Date: ${exp.date}</p>
 
-                <p>${data[i].desc}</p>
+            <p>${exp.description}</p>
 
-                <a href="update-expense.html?id=${i}">Edit</a>
+            <a href="update-expense.html?id=${exp.id}">
+            Edit
+            </a>
 
-                </div>
-                `;
-        }
+            </div>
+            `;
+        });
 
-        list.innerHTML = output;
+        document.getElementById("list").innerHTML = output;
+}
 
-    </script>
+loadExpenses();
+
+</script>
 
 </body>
 
