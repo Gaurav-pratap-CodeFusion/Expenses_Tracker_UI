@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Update Expense</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Update Expense</h2>
+
+        <form onsubmit="updateExpense(event)">
+
+            <label>Expense Name</label>
+            <input type="text" id="name" required>
+
+            <label>Amount</label>
+            <input type="number" id="amount" required>
+
+            <label>Date</label>
+            <input type="date" id="date" required>
+
+            <label>Description</label>
+            <textarea id="desc"></textarea>
+
+            <button>Update Expense</button>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        let id = new URLSearchParams(location.search).get("id");
+
+        let data = JSON.parse(localStorage.getItem("expenses")) || [];
+
+        if (data[id]) {
+            document.getElementById("name").value = data[id].name || "";
+            document.getElementById("amount").value = data[id].amount || "";
+            document.getElementById("date").value = data[id].date || "";
+            document.getElementById("desc").value = data[id].desc || "";
+        }
+
+
+        function updateExpense(e) {
+            e.preventDefault();
+
+            data[id] = {
+                name: document.getElementById("name").value,
+                amount: document.getElementById("amount").value,
+                date: document.getElementById("date").value,
+                desc: document.getElementById("desc").value
+            };
+
+            localStorage.setItem("expenses", JSON.stringify(data));
+
+            location.href = "expense-list.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

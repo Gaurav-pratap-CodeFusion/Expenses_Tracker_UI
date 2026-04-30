@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container" style="width:300px;">
+
+        <h2>Login Page</h2>
+
+        <form onsubmit="loginUser(event)">
+
+            <label>Username</label>
+            <input type="text" id="username" required>
+
+            <label>Password</label>
+            <input type="password" id="password" required>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        <p>
+            <a href="register.html">New user? Register here</a>
+        </p>
+
+    </div>
+
+
+    <script>
+
+        function loginUser(e) {
+            e.preventDefault();
+
+            let storedUser = JSON.parse(localStorage.getItem("user"));
+
+            if (storedUser && username.value === storedUser.username && password.value === storedUser.password) {
+                location.href = "dashboard.html";
+            }
+            else {
+                alert("Invalid username or password");
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

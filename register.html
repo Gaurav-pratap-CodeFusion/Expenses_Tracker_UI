@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container" style="width:300px;">
+
+        <h2>Registration</h2>
+
+        <form onsubmit="registerUser(event)">
+
+            <label>Username</label>
+            <input type="text" id="username" required>
+
+            <label>Password</label>
+            <input type="password" id="password" required>
+
+            <label>Email</label>
+            <input type="email" id="email" required>
+
+            <label>Full Name</label>
+            <input type="text" id="fullname" required>
+
+            <button type="submit">Register</button>
+
+        </form>
+
+        <p>
+            <a href="login.html">Already have an account? Login here</a>
+        </p>
+
+    </div>
+
+
+    <script>
+
+        function registerUser(e) {
+            e.preventDefault();
+
+            let user =
+            {
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+                email: document.getElementById("email").value,
+                fullname: document.getElementById("fullname").value
+            };
+
+            localStorage.setItem("user", JSON.stringify(user));
+
+            alert("Registration Successful");
+
+            location.href = "login.html";
+        }
+
+    </script>
+
+</body>
+
+</html>
