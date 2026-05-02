@@ -7,4 +7,5 @@ import com.gpcf.expenses_tracker.entity.User;
 public interface UserRepo extends JpaRepository<User, Long>
 {
     User findByUsername(String username);
+
 }
