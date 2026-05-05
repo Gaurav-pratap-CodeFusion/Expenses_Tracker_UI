@@ -45,21 +45,30 @@
                 date: document.getElementById("date").value,
                 description: document.getElementById("desc").value
             };
-
-            await fetch("http://localhost:8080/expenses",
-                {
+            try {
+                let response = await fetch("http://localhost:8080/expenses", {
                     method: "POST",
-
-                    headers:
-                    {
+                    headers: {
                         "Content-Type": "application/json"
                     },
-
                     body: JSON.stringify(expense)
                 });
 
-            location.href = "expense-list.html";
+                if (response.ok) {
+
+                    alert("Expense added successfully");
+                    location.href = "expense-list.html";
+
+                } else {
+                    alert("Expenses not added.");
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Server error");
+            }
         }
+
 
     </script>
 

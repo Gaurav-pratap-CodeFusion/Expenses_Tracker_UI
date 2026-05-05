@@ -2,61 +2,56 @@
 <html>
 
 <head>
-<title>Expense List</title>
-<link rel="stylesheet" href="style.css">
+    <title>Expense List</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-<h2>Expense List</h2>
+        <h2>Expense List</h2>
 
-<div id="list"></div>
+        <div id="list"></div>
 
-</div>
+    </div>
 
 
-<script>
+    <script>
+        async function loadExpenses() {
+            try {
+                let response = await fetch("http://localhost:8080/expenses");
 
-async function loadExpenses()
-{
-        let response =
-        await fetch("http://localhost:8080/expenses");
+                if (!response.ok) {
+                    alert("Failed to load data");
+                }
 
-        let data = await response.json();
+                let data = await response.json();
+                let output = "";
 
-        let output = "";
+                data.forEach(exp => {
+                    output += `
+                <div class="card">
+                    <h4 style="color:green">${exp.name}</h4>
+                    <p>Amount: ₹${exp.amount}</p>
+                    <p>Date: ${exp.date}</p>
+                    <p>${exp.description}</p>
+                    <a href="update-expense.html?id=${exp.id}">Edit</a>
+                </div>
+                `;
+                });
 
-        data.forEach(exp =>
-        {
-            output += `
-            <div class="card">
+                document.getElementById("list").innerHTML = output;
 
-            <h4 style="color:green">
-            ${exp.name}
-            </h4>
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                alert("Server Error.");
+            }
+        }
 
-            <p>Amount: ₹${exp.amount}</p>
+        loadExpenses();
+    </script>
 
-            <p>Date: ${exp.date}</p>
-
-            <p>${exp.description}</p>
-
-            <a href="update-expense.html?id=${exp.id}">
-            Edit
-            </a>
-
-            </div>
-            `;
-        });
-
-        document.getElementById("list").innerHTML = output;
-}
-
-loadExpenses();
-
-</script>
 
 </body>
 
